@@ -1,0 +1,64 @@
+2019-11-22 17:11:27,476 INFO No binary specified, looking for `pyre.bin` in PATH
+2019-11-22 17:11:27,476 INFO Found: `/root/shome/acd3/bin/pyre.bin`
+2019-11-22 17:11:27,477 INFO No typeshed specified, looking for it
+2019-11-22 17:11:27,477 DEBUG Trying with: `/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/python3.7/site-packages/pyre_check/client/pyre_check/typeshed/`
+2019-11-22 17:11:27,477 DEBUG Trying with: `/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/python3.7/site-packages/pyre_check/pyre_check/typeshed/`
+2019-11-22 17:11:27,477 DEBUG Trying with: `/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/python3.7/site-packages/pyre_check/typeshed/`
+2019-11-22 17:11:27,477 DEBUG Trying with: `/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/python3.7/pyre_check/typeshed/`
+2019-11-22 17:11:27,477 DEBUG Trying with: `/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/`
+2019-11-22 17:11:27,482 INFO Found: `/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/`
+2019-11-22 17:11:27,513 WARNING Setting up a `.pyre_configuration` with `pyre init` may reduce overhead.
+
+2019-11-22 17:11:27,523 DEBUG Running `/root/shome/acd3/bin/pyre.bin check -logging-sections parser -project-root /mnt/cephfs_new_wj/lab_speech/home/duxingjian/torch_hpss -filter-directories /mnt/cephfs_new_wj/lab_speech/home/duxingjian/torch_hpss -workers 78 -search-path /mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/stdlib/3.7,/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/stdlib/3.6,/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/stdlib/3,/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/stdlib/2and3,/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/third_party/3,/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/third_party/2and3 /mnt/cephfs_new_wj/lab_speech/home/duxingjian/torch_hpss`
+2019-11-22 17:11:29,136 PERFORMANCE Module tracker built: 1.369000s
+2019-11-22 17:11:29,237 INFO Parsing 827 stubs and sources...
+2019-11-22 17:11:34,622 PERFORMANCE Sources parsed: 5.485000s
+2019-11-22 17:11:34,722 INFO Building type environment...
+2019-11-22 17:12:08,194 WARNING Interrupted by user
+
+2019-11-22 17:12:08,196 DEBUG Traceback (most recent call last):
+  File "/root/shome/acd3/lib/python3.7/site-packages/pyre_check/client/pyre.py", line 563, in main
+    command(arguments, configuration, analysis_directory)
+  File "/root/shome/acd3/lib/python3.7/site-packages/pyre_check/client/commands/command.py", line 144, in run
+    self._run()
+  File "/root/shome/acd3/lib/python3.7/site-packages/pyre_check/client/commands/check.py", line 54, in _run
+    result = self._call_client(command="check")
+  File "/root/shome/acd3/lib/python3.7/site-packages/pyre_check/client/commands/command.py", line 268, in _call_client
+    process.wait()
+  File "/root/shome/acd3/lib/python3.7/subprocess.py", line 990, in wait
+    return self._wait(timeout=timeout)
+  File "/root/shome/acd3/lib/python3.7/subprocess.py", line 1624, in _wait
+    (pid, sts) = self._try_wait(0)
+  File "/root/shome/acd3/lib/python3.7/subprocess.py", line 1582, in _try_wait
+    (pid, sts) = os.waitpid(self.pid, wait_flags)
+KeyboardInterrupt
+
+2019-11-22 17:12:13,106 INFO Binary found at `/root/shome/acd3/bin/pyre.bin`
+2019-11-22 17:12:13,107 DEBUG Trying with: `/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/python3.7/site-packages/pyre_check/client/pyre_check/typeshed/`
+2019-11-22 17:12:13,107 DEBUG Trying with: `/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/python3.7/site-packages/pyre_check/pyre_check/typeshed/`
+2019-11-22 17:12:13,107 DEBUG Trying with: `/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/python3.7/site-packages/pyre_check/typeshed/`
+2019-11-22 17:12:13,107 DEBUG Trying with: `/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/python3.7/pyre_check/typeshed/`
+2019-11-22 17:12:13,107 DEBUG Trying with: `/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/`
+2019-11-22 17:12:13,107 PROMPT Which directory should pyre be initialized in? (Default: `.`): 
+2019-11-22 17:12:23,525 INFO Successfully initialized pyre! You can view the configuration at `/mnt/cephfs_new_wj/lab_speech/home/duxingjian/torch_hpss/.pyre_configuration`.
+2019-11-22 17:12:26,642 DEBUG Reading configuration `.pyre_configuration`...
+2019-11-22 17:12:26,642 DEBUG Found source_directories: `.`
+2019-11-22 17:12:26,643 WARNING Setting up a `.pyre_configuration` with `pyre init` may reduce overhead.
+
+2019-11-22 17:12:26,643 DEBUG Running `/root/shome/acd3/bin/pyre.bin check -logging-sections parser -project-root /mnt/cephfs_new_wj/lab_speech/home/duxingjian/torch_hpss -filter-directories /mnt/cephfs_new_wj/lab_speech/home/duxingjian/torch_hpss -workers 78 -search-path /mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/stdlib/3.7,/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/stdlib/3.6,/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/stdlib/3,/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/stdlib/2and3,/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/third_party/3,/mnt/cephfs_new_wj/lab_speech/home/duxingjian/acd3/lib/pyre_check/typeshed/third_party/2and3 /mnt/cephfs_new_wj/lab_speech/home/duxingjian/torch_hpss`
+2019-11-22 17:12:27,000 PERFORMANCE Module tracker built: 0.198000s
+2019-11-22 17:12:27,112 INFO Parsing 827 stubs and sources...
+2019-11-22 17:12:33,279 PERFORMANCE Sources parsed: 6.275000s
+2019-11-22 17:12:33,385 INFO Building type environment...
+2019-11-22 17:13:23,803 PERFORMANCE Full environment built: 50.534000s
+2019-11-22 17:13:23,803 INFO Checking 3 sources...
+2019-11-22 17:13:23,887 INFO Running check `TypeCheck`...
+2019-11-22 17:13:23,893 INFO Processed 1 of 3 sources
+2019-11-22 17:13:23,917 INFO Processed 2 of 3 sources
+2019-11-22 17:13:23,917 INFO Processed 3 of 3 sources
+2019-11-22 17:13:23,918 PERFORMANCE Check_TypeCheck: 0.114000s
+2019-11-22 17:13:23,919 MEMORY Shared memory size post-typecheck (size: 15)
+2019-11-22 17:13:23,933 PERFORMANCE Analyzed sources: 0.114000s
+2019-11-22 17:13:23,979 PERFORMANCE Check: 57.229000s
+2019-11-22 17:13:23,981 ERROR Found 14 type errors!
+

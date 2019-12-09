@@ -1,0 +1,1 @@
+pyre --source-directory . check 

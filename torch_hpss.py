@@ -59,11 +59,11 @@ def softmask(X, X_ref, power=1, split_zeros=False):
     return mask
 
 class HPSS(nn.Module):
-    def __init__(self, kernel_size, power=2.0, mask=False, margin=1.0):
+    def __init__(self, kernel_size, channel=2, power=2.0, mask=False, margin=1.0, reduce_method='median'):
         super(HPSS, self).__init__()
         win_harm = win_perc = kernel_size
-        self.harm_median_filter = MedianBlur(kernel_size=(1, win_harm))
-        self.perc_median_filter = MedianBlur(kernel_size=(win_perc, 1))
+        self.harm_median_filter = MedianBlur(kernel_size=(1, win_harm), channel=channel, reduce_method=reduce_method)
+        self.perc_median_filter = MedianBlur(kernel_size=(win_perc, 1), channel=channel, reduce_method=reduce_method)
      
 
     def forward(self, S, power=2.0, mask=False, margin=1.0):
@@ -101,7 +101,7 @@ class HPSS(nn.Module):
 
 
 
-def get_binary_kernel2d(window_size: Tuple[int, int]) -> torch.Tensor:
+def get_binary_kernel2d(window_size):
     r"""Creates a binary kernel to extract the patches. If the window size
     is HxW will create a (H*W)xHxW kernel.
     """
@@ -111,7 +111,7 @@ def get_binary_kernel2d(window_size: Tuple[int, int]) -> torch.Tensor:
         kernel[i, i] += 1.0
     return kernel.view(window_range, 1, window_size[0], window_size[1])
 
-def _compute_zero_padding(kernel_size: Tuple[int, int]) -> Tuple[int, int]:
+def _compute_zero_padding(kernel_size):
     r"""Utility function that computes zero padding tuple."""
     computed: Tuple[int, ...] = tuple([(k - 1) // 2 for k in kernel_size])
     return computed[0], computed[1]
@@ -136,10 +136,13 @@ class MedianBlur(nn.Module):
         >>> output = blur(input)  # 2x4x5x7
     """
 
-    def __init__(self, kernel_size: Tuple[int, int]) -> None:
+    def __init__(self, kernel_size, channel, reduce_method='median'):
         super(MedianBlur, self).__init__()
-        self.kernel: torch.Tensor = get_binary_kernel2d(kernel_size)
-        self.padding: Tuple[int, int] = _compute_zero_padding(kernel_size)
+        tmp_kernel = get_binary_kernel2d(kernel_size).float()
+        kernel = tmp_kernel.repeat(channel, 1, 1, 1)
+        self.register_buffer("kernel", kernel.contiguous())
+        self.padding = _compute_zero_padding(kernel_size)
+        self.reduce_method = reduce_method
 
     def forward(self, input: torch.Tensor):  # type: ignore
         if not torch.is_tensor(input):
@@ -150,37 +153,30 @@ class MedianBlur(nn.Module):
                              .format(input.shape))
         # prepare kernel
         b, c, h, w = input.shape
-        tmp_kernel: torch.Tensor = self.kernel.to(input.device).to(input.dtype)
-        kernel: torch.Tensor = tmp_kernel.repeat(c, 1, 1, 1)
 
         # map the local window to single vector
-        features: torch.Tensor = F.conv2d(
-            input, kernel, padding=self.padding, stride=1, groups=c)
+        features = F.conv2d(input, self.kernel, padding=self.padding, stride=1, groups=c)
         features = features.view(b, c, -1, h, w)  # BxCx(K_h * K_w)xHxW
 
         # compute the median along the feature axis
-        median: torch.Tensor = torch.median(features, dim=2)[0]
-        return median
-
-
-# functiona api
-
-
-def median_blur(input: torch.Tensor,
-                kernel_size: Tuple[int, int]) -> torch.Tensor:
-    r"""Blurs an image using the median filter.
-
-    See :class:`~kornia.filters.MedianBlur` for details.
-    """
-    return MedianBlur(kernel_size)(input)
-
+        if self.reduce_method == 'median':
+            res = torch.median(features, dim=2)[0]
+        if self.reduce_method == 'mean':
+            res = torch.mean(features, dim=2) 
+        return res
 
 if __name__ == "__main__":
     import librosa
     y, sr = librosa.load(librosa.util.example_audio_file(), duration=15)              
     D = librosa.stft(y)
-    S = torch.from_numpy(np.abs(D)[None, None, ...])
-    hpss_module = HPSS(kernel_size=31)
+    S, phase = librosa.core.magphase(D)
+
+    S = torch.from_numpy(np.abs(S)[None, None, ...])
+    hpss_module = HPSS(kernel_size=31, reduce_method='mean')
     res = hpss_module(S)
+    harm_spec = res['harm_spec'].squeeze().numpy() * phase
+    perc_spec = res['perc_spec'].squeeze().numpy() * phase
+    librosa.output.write_wav("H.wav", librosa.istft(harm_spec), sr=sr)
+    librosa.output.write_wav("P.wav", librosa.istft(perc_spec), sr=sr)
 
 
